@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${seletion}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script src="/js/jquery-3.4.0.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/community.css">
+</head>
+<body>
+<div th:insert="navigation::nav"></div>
+<div class="container-fluid">
+    <div class="row main">
+        <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12">
+            <h3><span class="glyphicon glyphicon-list" aria-haidden="true" th:text="${seletionName}"/> </h3>
+            <hr>
+            <div class="media" th:each="article:${articlePageInfo.list}">
+                <div class="media-left">
+                    <a href="#">
+
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${article.title}" ></h4>
+                    <span class="text-desc"><span th:text="${article.commentCount}"></span> 个回复 • <span th:text="${article.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(article.gtmCreate,'yyyy-mm-dd hh:mm:ss')}"></span></span>
+                </div>
+            </div>
+            <nav aria-label="Page navigation" class="page-css">
+                <ul class="pagination">
+                    <li th:class="${articlePageInfo.pageNum == 1}?'disabled'">
+                        <a th:href="'/profile/'+${seletion}+'/?pn=1'" aria-label="Previous">
+                            <span aria-hidden="true" >&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="prev" th:if="${articlePageInfo.hasPreviousPage}">
+                        <a th:href="'/profile/'+${seletion}+'/?pn='+${articlePageInfo.prePage}">
+                            <i class="ace-icon fa fa-angle-double-left"><</i>
+                        </a>
+                    </li>
+
+                    <li th:each="nav:${articlePageInfo.navigatepageNums}" th:class="${nav == articlePageInfo.pageNum}?'active'" >
+                        <a th:href="'/profile/'+${seletion}+'/?pn='+${nav}" th:text="${nav}" th:if="${nav != articlePageInfo.pageNum}"></a>
+                        <span th:if="${nav == articlePageInfo.pageNum}" th:text="${nav}"></span>
+                    </li>
+                    <li class="next" th:if="${articlePageInfo.hasNextPage}">
+                        <a th:href="'/profile/'+${seletion}+'/?pn='+${articlePageInfo.nextPage}">
+                            <i class="ace-icon fa fa-angle-double-right">></i>
+                        </a>
+
+                    <li th:class="${articlePageInfo.pageNum == articlePageInfo.pages}?'disabled'">
+                        <a th:href="'/profile/'+${seletion}+'/?pn='+${articlePageInfo.pages}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-lg-3 col-sm-12 col-md-12 col-xs-12">
+            <div class="list-group list-css">
+                <a href="#" class="list-group-item" th:classappend="${seletion == 'questions'}?'active'">
+                    我的问题
+                </a>
+                <a href="#" class="list-group-item" th:classappend="${seletion == 'replies'}?'active'">
+                    我的回复
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

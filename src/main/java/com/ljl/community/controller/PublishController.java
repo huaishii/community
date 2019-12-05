@@ -1,17 +1,16 @@
 package com.ljl.community.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.ljl.community.mapper.ArticleMapper;
 import com.ljl.community.mapper.UserMapper;
 import com.ljl.community.model.Article;
 import com.ljl.community.model.User;
 import com.ljl.community.model.UserExample;
-import com.ljl.community.service.ArticleService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -19,31 +18,37 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by Azz-ll on 2019/8/2
+ * Created by Azz-ll on 2019/8/5
  */
 @Controller
-public class IndexController {
+public class PublishController {
+
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private ArticleMapper articleMapper;
 
-    @Autowired
-    private ArticleService articleService;
+    @GetMapping("/publish")
+    public String publish() {
+        return "publish";
+    }
 
-    @GetMapping("/")
-    public String index(HttpServletRequest request, Model model,
-                        @RequestParam(required = false,value = "pn",defaultValue = "1") Integer pn,
-                        @RequestParam(value = "pageSize",defaultValue = "2")Integer pageSize) {
+    @PostMapping("/publish")
+    public String doPublish(@RequestParam("title") String title,
+                            @RequestParam("description") String description,
+                            @RequestParam("tag") String tag,
+                            HttpServletRequest request,
+                            Model model) {
+        Article article = new Article();
+        List<User> users  = null;
         Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
+        if(cookies !=null&&cookies.length!=0) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     UserExample example = new UserExample();
                     example.createCriteria()
                             .andTokenEqualTo(cookie.getValue());
-                    List<User> users = userMapper.selectByExample(example);
+                    users = userMapper.selectByExample(example);
                     if (users.size() != 0) {
                         request.getSession().setAttribute("user", users.get(0));
                     }
@@ -51,13 +56,17 @@ public class IndexController {
                 }
             }
         }
-        if(pn<=0){
-            pn=1;
+        if(users.get(0) == null){
+            model.addAttribute("error", "用户未登录，请先登录！");
+            return "publish";
         }
-        PageHelper.startPage(pn, 10);
-        List<Article> articles = articleService.findList();
-        PageInfo pageInfo=new PageInfo(articles,5);
-        model.addAttribute("pageInfo",pageInfo);
-        return "index";
+        article.setTitle(title);
+        article.setDescription(description);
+        article.setTag(tag);
+        article.setGtmCreate(System.currentTimeMillis());
+        article.setGtmModified(System.currentTimeMillis());
+        article.setCreator(users.get(0).getId());
+        articleMapper.insert(article);
+        return "publish";
     }
 }
