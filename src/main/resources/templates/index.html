@@ -9,11 +9,20 @@
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/community.css">
 </head>
+<script>
+    window.onload = function () {
+        var closeable = window.localStorage.getItem("closeable");
+        if(closeable == "true"){
+            window.close();
+            window.localStorage.removeItem("closeable");
+        }
+    }
+</script>
 <body>
 <div th:insert="navigation::nav"></div>
 <div class="container-fluid">
     <div class="row main">
-        <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12">
+        <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12 community-div">
             <h3><span class="glyphicon glyphicon-list" aria-haidden="true"/> 发现</h3>
             <hr>
             <div class="media" th:each="article:${pageInfo.list}">
@@ -23,7 +32,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${article.title+pageInfo.pageNum}" ></h4>
+                    <h4 class="media-heading"  >
+                        <a th:href="@{'/question/'+${article.id}}"  th:text="${article.title}"></a>
+                    </h4>
                     <span class="text-desc"><span th:text="${article.commentCount}"></span> 个回复 • <span th:text="${article.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(article.gtmCreate,'yyyy-mm-dd hh:mm:ss')}"></span></span>
                 </div>
             </div>

@@ -5,8 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.ljl.community.mapper.ArticleMapper;
 import com.ljl.community.mapper.UserMapper;
 import com.ljl.community.model.Article;
-import com.ljl.community.model.User;
-import com.ljl.community.model.UserExample;
 import com.ljl.community.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -36,21 +33,6 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(required = false,value = "pn",defaultValue = "1") Integer pn,
                         @RequestParam(value = "pageSize",defaultValue = "2")Integer pageSize) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    UserExample example = new UserExample();
-                    example.createCriteria()
-                            .andTokenEqualTo(cookie.getValue());
-                    List<User> users = userMapper.selectByExample(example);
-                    if (users.size() != 0) {
-                        request.getSession().setAttribute("user", users.get(0));
-                    }
-                    break;
-                }
-            }
-        }
         if(pn<=0){
             pn=1;
         }
