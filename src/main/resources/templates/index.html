@@ -12,7 +12,7 @@
 <script>
     window.onload = function () {
         var closeable = window.localStorage.getItem("closeable");
-        if(closeable == "true"){
+        if (closeable == "true") {
             window.close();
             window.localStorage.removeItem("closeable");
         }
@@ -32,36 +32,39 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading"  >
-                        <a th:href="@{'/question/'+${article.id}}"  th:text="${article.title}"></a>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${article.id}}" th:text="${article.title}"></a>
                     </h4>
-                    <span class="text-desc"><span th:text="${article.commentCount}"></span> 个回复 • <span th:text="${article.viewCount}"></span> 次浏览 • <span th:text="${#dates.format(article.gtmCreate,'yyyy-mm-dd hh:mm:ss')}"></span></span>
+                    <span class="text-desc"><span th:text="${article.commentCount}"></span> 个回复 • <span
+                            th:text="${article.viewCount}"></span> 次浏览 • <span
+                            th:text="${#dates.format(article.gtmCreate,'yyyy-mm-dd hh:mm:ss')}"></span></span>
                 </div>
             </div>
             <nav aria-label="Page navigation" class="page-css">
                 <ul class="pagination">
                     <li th:class="${pageInfo.pageNum == 1}?'disabled'">
-                        <a href="/?pn=1" aria-label="Previous">
-                            <span aria-hidden="true" >&laquo;</span>
+                        <a th:href="@{/(pn=1,search=${search})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-                        <a th:href="'/?pn='+${pageInfo.prePage}">
+                        <a th:href="@{/(pn=${pageInfo.prePage},search=${search})}">
                             <i class="ace-icon fa fa-angle-double-left"><</i>
                         </a>
                     </li>
-
-                    <li th:each="nav:${pageInfo.navigatepageNums}" th:class="${nav == pageInfo.pageNum}?'active'" >
-                        <a th:href="'/?pn='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+                    <li th:each="nav:${pageInfo.navigatepageNums}"
+                        th:class="${nav == pageInfo.pageNum}?'active'">
+                        <a th:href="@{/(pn=${nav},search=${search})}" th:text="${nav}"
+                           th:if="${nav != pageInfo.pageNum}"></a>
                         <span th:if="${nav == pageInfo.pageNum}" th:text="${nav}"></span>
                     </li>
                     <li class="next" th:if="${pageInfo.hasNextPage}">
-                        <a th:href="'/?pn='+${pageInfo.nextPage}">
+                        <a th:href="@{/(pn=${pageInfo.nextPage},search=${search})}">
                             <i class="ace-icon fa fa-angle-double-right">></i>
                         </a>
 
                     <li th:class="${pageInfo.pageNum == pageInfo.pages}?'disabled'">
-                        <a th:href="'/?pn='+${pageInfo.pages}" aria-label="Next">
+                        <a th:href="@{/(pn=${pageInfo.pages},search=${search})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

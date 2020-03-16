@@ -23,11 +23,16 @@ public class ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
 
-    public List<Article> findList() {
-        ArticleExample articleExample = new ArticleExample();
-        articleExample.setOrderByClause("gtm_create desc");
-        List<Article> articleList = articleMapper.selectByExampleWithUser(articleExample);
-        return articleList;
+    public List<Article> findList(String search) {
+        if (search == null || search == "") {
+            ArticleExample articleExample = new ArticleExample();
+            articleExample.setOrderByClause("gtm_modified desc");
+            List<Article> articleList = articleMapper.selectByExampleWithUser(articleExample);
+            return articleList;
+        } else {
+            List<Article> articleList = articleMapper.searchWithUser(search);
+            return articleList;
+        }
     }
 
     public Article selectById(Integer id) {

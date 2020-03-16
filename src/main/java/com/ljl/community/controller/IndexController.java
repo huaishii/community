@@ -32,14 +32,12 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(required = false,value = "pn",defaultValue = "1") Integer pn,
-                        @RequestParam(value = "pageSize",defaultValue = "2")Integer pageSize) {
-        if(pn<=0){
-            pn=1;
-        }
+                        @RequestParam(value = "search",required = false)String search) {
         PageHelper.startPage(pn, 10);
-        List<Article> articles = articleService.findList();
+        List<Article> articles = articleService.findList(search);
         PageInfo pageInfo=new PageInfo(articles,5);
         model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("search",search);
         return "index";
     }
 }

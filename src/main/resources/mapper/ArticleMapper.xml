@@ -51,16 +51,25 @@
     <result column="DESCRIPTION" jdbcType="CLOB" property="description" />
   </resultMap>
   <select id="selectRelated" parameterType="com.ljl.community.model.Article" resultMap="BaseResultMap">
-    select * from ARTICLE
+  select * from ARTICLE
+  <where>
+    <if test="id != null">
+      and id != #{id}
+    </if>
+    <if test="tag != null and tag != ''">
+      and tag regexp #{tag}
+    </if>
+  </where>
+  order by gtm_modified desc limit 20
+</select>
+  <select id="searchWithUser" parameterType="com.ljl.community.model.Article" resultMap="BaseResultMapWithUser">
+    select * FROM ARTICLE
     <where>
-      <if test="id != null">
-        and id != #{id}
-      </if>
-      <if test="tag != null and tag != ''">
-        and tag regexp #{tag}
+      <if test="search != null and search != ''">
+        and title regexp #{search}
       </if>
     </where>
-    order by gtm_create desc limit 20
+    order by gtm_modified desc
   </select>
   <update id="incView" parameterType="com.ljl.community.model.Article">
     update ARTICLE

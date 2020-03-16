@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -41,8 +43,17 @@ public class AliyunProvider {
         // 上传文件流。
         ossClient.putObject(bucketName, objectName+generatedFileName, inputStream);
 
+        //获取图片URL
+        Date expiration = new Date(new Date().getTime() + 3600l * 1000 * 24 * 365 * 10);
+        URL url = ossClient.generatePresignedUrl(bucketName, objectName+generatedFileName,expiration);
+
         // 关闭OSSClient。
         ossClient.shutdown();
-        return null;
+
+        if(url != null){
+            return url.toString();
+        }else{
+            throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FAIL);
+        }
     }
 }

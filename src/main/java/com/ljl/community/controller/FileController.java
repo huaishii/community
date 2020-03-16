@@ -24,14 +24,15 @@ public class FileController {
     public FileDTO uplode(HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile file = multipartRequest.getFile("editormd-image-file");
+        String url = "";
         try {
-            aliyunProvider.upload(file.getInputStream(),file.getOriginalFilename());
+            url = aliyunProvider.upload(file.getInputStream(),file.getOriginalFilename());
         } catch (IOException e) {
             e.printStackTrace();
         }
         FileDTO fileDTO = new FileDTO();
         fileDTO.setSuccess(1);
-        fileDTO.setUrl("/img/111.jpg");
+        fileDTO.setUrl(url);
         return fileDTO;
     }
 }
