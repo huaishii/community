@@ -1,0 +1,14 @@
+2020-03-17 19:00:13.038  INFO 1452 --- [restartedMain] com.ljl.community.CommunityApplication   : Starting CommunityApplication on Alice with PID 1452 (started by acer in E:\workplace idea\community)
+2020-03-17 19:00:13.042  INFO 1452 --- [restartedMain] com.ljl.community.CommunityApplication   : No active profile set, falling back to default profiles: default
+2020-03-17 19:00:13.288  INFO 1452 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-03-17 19:00:13.289  INFO 1452 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-03-17 19:00:17.358  INFO 1452 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8887 (http)
+2020-03-17 19:00:17.397  INFO 1452 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-03-17 19:00:17.397  INFO 1452 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2020-03-17 19:00:17.696  INFO 1452 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-03-17 19:00:17.697  INFO 1452 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4408 ms
+2020-03-17 19:00:18.609  INFO 1452 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-17 19:00:18.794  INFO 1452 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-17 19:00:19.526  INFO 1452 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-03-17 19:00:19.600  INFO 1452 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8887 (http) with context path ''
+2020-03-17 19:00:19.603  INFO 1452 --- [restartedMain] com.ljl.community.CommunityApplication   : Started CommunityApplication in 7.752 seconds (JVM running for 10.017)

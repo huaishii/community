@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class GithubUser {
     private String name;
-    private long id;
+    private int id;
     private String dio;
     private String avatarUrl;
 }

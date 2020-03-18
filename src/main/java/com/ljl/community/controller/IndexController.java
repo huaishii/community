@@ -33,7 +33,7 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(required = false,value = "pn",defaultValue = "1") Integer pn,
                         @RequestParam(value = "search",required = false)String search) {
-        PageHelper.startPage(pn, 10);
+        PageHelper.startPage(pn, 8);
         List<Article> articles = articleService.findList(search);
         PageInfo pageInfo=new PageInfo(articles,5);
         model.addAttribute("pageInfo",pageInfo);
