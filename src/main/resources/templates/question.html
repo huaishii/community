@@ -3,17 +3,17 @@
 <head>
     <title th:text="${question.title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="editormd/css/editormd.preview.min.css"/>
-    <link rel="stylesheet" href="/css/community.css">
-    <script src="/js/jquery-3.4.0.min.js"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-    <script src="/js/community.js" type="application/javascript"></script>
-    <script src="/js/moment.js" type="application/javascript"></script>
-    <script src="/editormd/editormd.min.js" type="application/javascript"></script>
-    <script src="/editormd/lib/marked.min.js" type="application/javascript"></script>
-    <script src="/editormd/lib/prettify.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../editormd/css/editormd.preview.min.css"/>
+    <link rel="stylesheet" href="../css/community.css">
+    <script src="../js/jquery-3.4.0.min.js"></script>
+    <script src="../js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="../js/community.js" type="application/javascript"></script>
+    <script src="../js/moment.js" type="application/javascript"></script>
+    <script src="../editormd/editormd.min.js" type="application/javascript"></script>
+    <script src="../editormd/lib/marked.min.js" type="application/javascript"></script>
+    <script src="../editormd/lib/prettify.min.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="navigation::nav"></div>
@@ -85,7 +85,7 @@
                                 <span th:data-id="${comment.id}"
                                       onclick="collapseComments(this)" class="comment-icon">
                                     <span class="glyphicon glyphicon-comment"></span>
-                                    <span th:if="${comment.commentCount} != 0 ? ${comment.commentCount}:''"></span>
+                                    <span th:if="${comment.commentCount} != 0" th:text="${comment.commentCount}"></span>
                                 </span>
                                 <span class="pull-right"
                                       th:text="${#dates.format(comment.gmtCreate,'YYYY-MM-dd hh:mm')}"></span>
@@ -117,7 +117,7 @@
                         <div class="media-left">
                             <a href="#">
                                 <img class="media-object img-rounded"
-                                     th:src="${session.user != null ? session.user.avatarUrl : '/images/default-avatar.png'}">
+                                     th:src="${session.user != null ? session.user.avatarUrl : '/img/匿名头像.jpg'}">
                             </a>
                         </div>
                         <div class="media-body">

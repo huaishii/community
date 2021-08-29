@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>项目预算信息表工作流</title>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		 <!-- 请修改相对路径 -->
+		<script src="../../../../frame/fui/js/cssboot.js"></script>
+	</head>
+
+	<body>
+		<div class="page-loading"></div>
+
+		<!-- toolbar区域 -->
+		<div class="fui-toolbar">
+			<div class="uc-handlecontrols" id="handlecontrols" action="handleCtrl"
+			style="width: 100%"></div>
+		</div>
+
+		<div class="fui-content">
+			<div class="fui-accordions">
+				<div role="accordion" opened="true">
+					<div role="head" title="表单填写"></div>
+					<div role="body">
+					    <!-- 隐藏按钮id不能修改 -->
+						<div class="hidden">
+							<a class="mini-button" id="btnSaveFrom" onclick="saveFrom">保存</a>
+							<a class="mini-button" id="btnSubmit" onclick="submit">提交</a>
+						</div>
+
+						<!-- 内容区域 -->
+						<div id="fui-form" class="fui-form">
+						<div role="row">
+<div role="control" label="预算名称" starred="true">
+<input id="budgetname" class="mini-textbox" bind="dataBean.budgetname" required="true" requiredErrorText="预算名称不能为空!" /></div>
+<div role="control" label="预算类型" starred="true">
+<div class="mini-radiobuttonlist" action="budgettypeModel" id="budgettype" bind="dataBean.budgettype" required="true" requiredErrorText="预算类型不能为空!" ></div></div>
+</div><div role="row">
+<div role="control" label="项目标识" starred="true">
+<input id="projectguid" class="mini-textbox" bind="dataBean.projectguid" required="true" requiredErrorText="项目标识不能为空!" /></div>
+<div role="control" label="预算金额" starred="true">
+<input id="budgetmoney" class="mini-textbox" bind="dataBean.budgetmoney" required="true" requiredErrorText="预算金额不能为空!"  vType="int"/></div>
+</div><div role="row">
+<div role="control" label="预算已使用额" starred="true">
+<input id="usebudgetmoney" class="mini-textbox" bind="dataBean.usebudgetmoney" required="true" requiredErrorText="预算已使用额不能为空!"  vType="int"/></div>
+<div role="control" label="填写时间" starred="true">
+<input class="mini-datepicker" bind="dataBean.updatetime" id="updatetime" required="true" requiredErrorText="填写时间不能为空!" /></div>
+</div>								
+						</div>
+					</div>
+				</div>
+				<div role="accordion">
+					<div role="head" title="相关附件"></div>
+					<div role="body">
+						<div class="uc-workflowattach" id="workflowattach"
+						action="attachCtrl" style="width: 100%;"></div>
+					</div>
+				</div>
+				<div role="accordion">
+					<div role="head" title="签署意见"></div>
+					<div role="body">
+						<!-- 
+							showmode(显示意见模板模式)
+		   					1:(默认)显示意见模板区域，但仅显示个人意见模板
+		   					2:显示意见模板区域，显示公共和个人意见模板
+		   					3:不显示意见模板区域
+						-->
+						<div class="uc-workflowopinion" id="workflowopinion"
+							action="opinionCtrl" data-options="{showmode : 1}" 
+							style="width: 100%;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+ 		<!-- 请修改相对路径 -->
+		<script src="../../../../rest/resource/jsboot"></script>
+		<script>
+			SrcBoot.output([ 'frame/pages/epointworkflow/js/workflowjsboot.js',
+				'frame/pages/epointworkflow/js/tableproperty.js']);
+		</script>
+
+		<script>
+			//初始化页面
+			epoint.initPage('projectbudgetinfoworkflowaction', '', function(data){
+				setControlsAccessRight(data);
+			});
+    	
+		
+			function saveFrom() {
+				if (epoint.validate()) {
+					epoint.execute('saveForm', 'fui-form', newCallback);
+				}
+				else
+					ShowTdOperate(true);
+			}
+
+			function submit() {
+				if (epoint.validate()) {
+					epoint.execute('submit', 'fui-form', newCallback);
+				}
+				else
+					ShowTdOperate(true);
+			}
+			
+			// 新增操作的回调,必须回调handlecontrols中的HeaderSubmit触发流程流转
+			function newCallback(data) {
+				if (data && data.msg) {
+					epoint.alert(data.msg, '', null, 'info');
+					ShowTdOperate(true);
+				} else {
+					HeaderSubmit();
+				}
+			}
+		</script>
+
+	</body>
+
+</html>

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,17 @@ public class IndexController {
         PageInfo pageInfo=new PageInfo(articles,5);
         model.addAttribute("pageInfo",pageInfo);
         model.addAttribute("search",search);
+        return "index";
+    }
+
+    @GetMapping("/tag/{name}")
+    public String getTag(HttpServletRequest request, Model model,
+                         @RequestParam(required = false,value = "pn",defaultValue = "1") Integer pn,
+                         @PathVariable(value = "name") String name){
+        PageHelper.startPage(pn,8);
+        List<Article> articles = articleService.findTag(name);
+        PageInfo pageInfo=new PageInfo(articles,5);
+        model.addAttribute("pageInfo",pageInfo);
         return "index";
     }
 }

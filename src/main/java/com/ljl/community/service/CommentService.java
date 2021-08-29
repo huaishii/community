@@ -52,16 +52,19 @@ public class CommentService {
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
-            Article article = articleMapper.selectByPrimaryKey(comment.getCommentator());
+            // 回复问题
+            Article article = articleMapper.selectByPrimaryKey(dbComment.getParentId());
             if (article == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentMapper.insert(comment);
             //增加评论数
-            dbComment.setCommentCount(1);
-            commentMapper.incCommentCount(dbComment);
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentMapper.incCommentCount(parentComment);
             //创建通知
-            createNotify(comment, dbComment.getCommentator(), commentator.getName(), article.getTitle(), NotificationTypeEnum.REPLY_COMMENT, article.getId());
+            createNotify(comment, dbComment.getCommentator(), commentator.getId(),commentator.getName(), article.getTitle(), NotificationTypeEnum.REPLY_COMMENT, article.getId());
         } else {
             //回复问题
             Article article = articleMapper.selectByPrimaryKey(comment.getParentId());
@@ -73,12 +76,12 @@ public class CommentService {
             article.setCommentCount(1);
             articleMapper.incCommentCount(article);
             //创建通知
-            createNotify(comment, article.getCreator(), commentator.getName(), article.getTitle(), NotificationTypeEnum.REPLY_QUESTION, article.getId());
+            createNotify(comment, article.getCreator(), commentator.getId(), commentator.getName(), article.getTitle(), NotificationTypeEnum.REPLY_QUESTION, article.getId());
         }
     }
 
     //创建通知的方法
-    private void createNotify(Comment comment, Integer receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer OuterId) {
+    private void createNotify(Comment comment, Integer receiver, Integer notifier,String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer OuterId) {
         if(receiver == comment.getCommentator()){
             return;
         }
@@ -86,6 +89,7 @@ public class CommentService {
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(notificationType.getType());
         notification.setOuterid(OuterId);
+        notification.setNotifier(notifier);
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
         notification.setReceiver(receiver);
         notification.setNotifierName(notifierName);

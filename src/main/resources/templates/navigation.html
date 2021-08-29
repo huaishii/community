@@ -3,7 +3,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-
 <div th:fragment="nav">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -16,7 +15,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Community</a>
+                <a class="navbar-brand" href="/">HSGAME</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -29,18 +28,20 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${session.user == null}">
-                        <a th:href="@{https://github.com/login/oauth/authorize(client_id='297ac07a3904c55a48d8',redirect_uri=${#httpServletRequest.getServletContext().getAttribute('redirectUri')},scope='user',state=1)}">登录</a>
+                        <a href="/douser">登录</a>
                     </li>
                     <li th:if="${session.user != null}">
                         <a href="/publish"><span>发布</span></a>
                     </li>
-                    <li><a href="/profile/replies">通知 <span class="badge" th:text="${session.unreadCount}"></span></a>
+                    <li><a href="/profile/replies">通知 <span class="badge" th:if="${session.unreadCount}!=0"
+                                                            th:text="${session.unreadCount}"></span></a>
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false"><span th:text="${session.user.getName()}"> </span><span
                                 class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile/questions">我的问题</a></li>
+                            <li><a href="/userInfo">个人信息</a></li>
+                            <li><a href="/profile/questions">我的发布</a></li>
                             <li><a href="/profile/replies">我的回复</a></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>

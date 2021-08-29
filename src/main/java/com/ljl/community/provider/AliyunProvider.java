@@ -5,7 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.ljl.community.expcetion.CustomizeErrorCode;
 import com.ljl.community.expcetion.CustomizeException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * Created by Azz-ll on 2020/3/14
  */
-@Service
+@Component
 public class AliyunProvider {
     @Value("${aliyuncs.endpoint}")
     private String endpoint;

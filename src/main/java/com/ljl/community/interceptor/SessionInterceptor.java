@@ -24,13 +24,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     private UserMapper userMapper;
     @Autowired
     private NotificationService notificationService;
-    @Value("${github.redirect.url}")
-    private String redirectUri;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //设置 context 级别的属性
-        request.getServletContext().setAttribute("redirectUri", redirectUri);
         Cookie[] cookies = request.getCookies();
         List<User> users = null;
         if (cookies != null && cookies.length != 0) {

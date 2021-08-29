@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>项目信息表列表</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- 请修改相对路径 -->
+<script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+
+	<!-- toolbar区域 -->
+	<div class="fui-toolbar">
+		<div class="btn-group mr10">
+			<a class="mini-button" onclick="openAdd" id="btnAddRecord"> 新增记录 </a> <a id="btnDel"
+				class="mini-button mini-btn-danger" onclick="deleteData"> 删除选定 </a>
+		</div>
+		<!-- 		<a class="mini-dataexport" id="dataexport" gridId="datagrid" fileName="查询列表" -->
+		<!-- 			action="getExportModel" extraId="fui-form"></a> -->
+	</div>
+
+	<!-- 条件区域 -->
+	<div class="fui-condition">
+		<div class="fui-form" id="fui-form">
+			<div id="cform" role="form">
+				<div role="row">
+					<div role="control" label="项目名称">
+						<input id="search_projectname" class="mini-textbox" bind="dataBean.projectname"
+							requiredErrorText="项目名称不能为空!" />
+					</div>
+					<div role="control" label="项目类别">
+						<input class="mini-combobox" action="projecttypeModel" id="search_projecttype"
+							bind="dataBean.projecttype" textField="text" valueField="id" emptyText="请选择..."
+							requiredErrorText="项目类别不能为空!" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<a role="searcher" callback="searchData"></a>
+	</div>
+
+
+	<!-- 内容区域 -->
+	<div id="fuiContent" class="fui-content">
+		<div id="datagrid" class="mini-datagrid" idField="rowguid" action="getDataGridData"
+			sortOrder="desc" showPager="true" style="height: 100%;" allowResize="true"
+			multiSelect="true" allowCellEdit="true" allowCellSelect="true"
+			editNextOnEnterKey="true" editNextRowCell="true">
+			<div property="columns">
+				<div type="checkcolumn" width="20"></div>
+				<div type="indexcolumn" width="20" headerAlign="center">序</div>
+				<div field="projectname" headerAlign="center">项目名称</div>
+				<!-- 				<div field="projectmanager" headerAlign="center">项目经理</div> -->
+				<div field="projectManagetName" headerAlign="center">项目经理</div>
+				<div field="projecttype" headerAlign="center" data-options="{code:'项目类别'}">
+					项目类别</div>
+				<div field="projectmoney" headerAlign="center">资金金额</div>
+				<div field="belongzone" headerAlign="center" data-options="{code:'所属地区'}">
+					所属地区</div>
+<!-- 								<div field="projectuser" headerAlign="center">项目人员</div> -->
+								<div field="projectUserName" headerAlign="center">项目人员</div>
+				<div width="60" align="center" headerAlign="center" renderer="onDetailRenderer">
+					查看</div>
+				<div width="60" align="center" headerAlign="center" renderer="onEditRenderer">
+					修改</div>
+				<div width="60" align="center" headerAlign="center" renderer="onBugdetRender">
+					项目预算</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- 请修改相对路径 -->
+	<script src="../../../../rest/resource/jsboot"></script>
+	<script>
+		// 初始化页面
+		epoint.initPage('projectinfolistaction');
+
+		// 绘制行编辑按钮
+		var onEditRenderer = function(e) {
+			return epoint.renderCell(e, "action-icon icon-edit", "openEdit");
+		};
+
+		// 绘制行查看按钮
+		var onDetailRenderer = function(e) {
+			return epoint.renderCell(e, "action-icon icon-search", "openDetail");
+		};
+
+		// 弹出新增窗口
+		function openAdd() {
+			//frame/pages/epointworkflow/client/processcreateinstance?ProcessGuid=过程guid
+			epoint.openDialog('新增记录', "frame/pages/xmcg/projectinfo/projectinfoadd", searchData, {
+				'width' : 1000,
+				'height' : 800
+			});
+		}
+
+		// 弹出修改窗口
+		function openEdit(id) {
+			epoint.openDialog('修改记录', "frame/pages/xmcg/projectinfo/projectinfoedit?guid=" + id, searchData, {
+				'width' : 1000,
+				'height' : 550
+			});
+		}
+
+		// 弹出明细窗口
+		function openDetail(id) {
+			epoint.openDialog('详细信息', "frame/pages/xmcg/projectinfo/projectinfodetail?guid=" + id, {
+				'width' : 1000,
+				'height' : 550
+			});
+		}
+
+		// 删除数据
+		function deleteSelect() {
+			epoint.execute("deleteSelect", '', callback);
+		}
+
+		function callback(data) {
+			if (data.msg) {
+				epoint.alert(data.msg, '', searchData, 'info');
+			}
+		}
+
+		// 表格的搜索
+		function searchData() {
+			epoint.refresh([ 'datagrid', 'fui-form' ], '', true);
+		}
+
+		function deleteData() {
+			if (mini.get('datagrid').getSelecteds().length == 0) {
+				epoint.alert('请选择要删除的记录!', '', null, 'warning');
+			} else {
+				epoint.confirm('确认要删除吗?', '', deleteSelect);
+			}
+		}
+
+		//项目预算链接
+		function onBugdetRender(e) {
+			var guid = e.row.rowguid;
+			var str = "	<a herf=\"#\" onClick=\"onProjectBugdetClick('" + guid + "');return false;\">项目预算</a>";
+			return str;
+		}
+		function onProjectBugdetClick(guid) {
+			console.log(guid);
+			epoint.openDialog("预算信息列表页", "frame/pages/xmcg/projectbudgetinfo/projectbudgetinfolist?projectguid=" + guid);
+		}
+	</script>
+</body>
+</html>

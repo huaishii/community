@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>项目信息表详情页面</title>
+<!-- 请修改相对路径 -->
+<script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+	<!-- toolbar区域 -->
+	<div class="fui-toolbar">
+		<div class="btn-group mr10">
+			<a class="mini-button" onclick="epoint.closeDialog">关闭</a>
+		</div>
+	</div>
+
+	<!-- 内容区域 -->
+	<div class="fui-content">
+		<div id="fui-form" class="fui-form" style="width: 90%">
+			<div role="form">
+				<div role="row">
+					<div role="control" label="项目名称">
+						<div class="mini-outputtext" bind="dataBean.projectname"></div>
+					</div>
+					<div role="control" label="所属地区">
+						<div class="mini-outputtext" bind="dataBean.belongzone"
+							data-options="{code:'所属地区'}"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="项目类别">
+						<div class="mini-outputtext" bind="dataBean.projecttype"
+							data-options="{code:'项目类别'}"></div>
+					</div>
+					<div role="control" label="资金金额">
+						<div class="mini-outputtext" bind="dataBean.projectmoney"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="项目经理">
+						<div class="mini-outputtext" bind="dataBean.projectmanager" id="projectmanager"></div>
+					</div>
+					<div role="control" label="项目人员">
+						<div class="mini-outputtext" bind="dataBean.projectuser" id="projectuser"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="项目描述">
+						<div class="mini-outputtext" bind="dataBean.descriptions"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 请修改相对路径 -->
+	<script src="../../../../rest/resource/jsboot"></script>
+
+	<script>
+		// 初始化页面
+		epoint.initPage('projectinfodetailaction');
+	</script>
+</body>
+</html>

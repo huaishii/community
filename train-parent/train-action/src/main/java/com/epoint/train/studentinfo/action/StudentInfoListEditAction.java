@@ -1,0 +1,58 @@
+package com.epoint.train.studentinfo.action;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.epoint.basic.controller.BaseController;
+import com.epoint.core.dto.model.SelectItem;
+import com.epoint.train.studentinfo.api.IStudentInfoService;
+import com.epoint.train.studentinfo.api.entity.StudentInfo;
+
+@RestController("studentinfolisteditaction")
+@Scope("request")
+public class StudentInfoListEditAction extends BaseController
+{
+
+    private StudentInfo dataBean;
+    
+    @Autowired
+    private IStudentInfoService studentInfoService;
+    
+    private List<SelectItem> professTItems;
+    @Override
+    public void pageLoad() {
+        // TODO Auto-generated method stub
+        String studentId = getRequestParameter("studentId");
+        dataBean = studentInfoService.find(Integer.parseInt(studentId));
+        if(dataBean == null) {
+            dataBean = new StudentInfo();
+        }
+    }
+    
+    public void add() {
+        studentInfoService.update(dataBean);
+        addCallbackParam("msg", "保存成功！");
+    }
+    
+    public List<SelectItem> getProfession(){
+        if(professTItems == null) {
+            professTItems = new ArrayList<>();
+            professTItems.add(new SelectItem("1","计算机控制"));
+            professTItems.add(new SelectItem("2","网络安全"));
+            professTItems.add(new SelectItem("3","数据库"));
+        }
+         return professTItems;
+    }
+    
+    public StudentInfo getDataBean() {
+        return dataBean;
+    }
+    public void setDataBean(StudentInfo dataBean) {
+        this.dataBean = dataBean;
+    }
+    
+}

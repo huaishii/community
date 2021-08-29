@@ -25,7 +25,7 @@ function comment2target(targetId, type, content) {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=297ac07a3904c55a48d8&redirect_uri=http://localhost:8887/callback&scope=user&state=1")
+                        window.open("/douser")
                         window.localStorage.setItem("closeable", true);
                     }
                 } else {
@@ -118,5 +118,19 @@ function selectTag(e) {
         } else {
             $("#tag").val(value);
         }
+    }
+}
+
+function upload(obj){
+    //获取展示图片的区域
+    var img = document.getElementById("showImg");
+    //获取文件对象
+    var file = obj.files[0];
+    //获取文件阅读器
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function(){
+        //给img的src设置图片url
+        img.setAttribute("src", this.result);
     }
 }

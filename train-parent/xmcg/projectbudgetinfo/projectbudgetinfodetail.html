@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>项目预算信息表详情页面</title>
+     <!-- 请修改相对路径 -->
+    <script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+	<!-- toolbar区域 -->
+	<div class="fui-toolbar">
+        <div class="btn-group mr10">
+            <a class="mini-button" onclick="epoint.closeDialog">关闭</a>
+        </div>
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="fui-content">
+    	<div id="fui-form" class="fui-form" style="width:90%">
+    		<div role="form">
+    		<div role="row">
+<div role="control" label="预算名称">
+<div class="mini-outputtext" bind="dataBean.budgetname" ></div></div>
+<div role="control" label="预算类型">
+<div class="mini-outputtext" bind="dataBean.budgettype" data-options="{code:'预算类型'}"></div></div>
+</div><div role="row">
+<div role="control" label="项目标识">
+<div class="mini-outputtext" bind="dataBean.projectguid" ></div></div>
+<div role="control" label="预算金额">
+<div class="mini-outputtext" bind="dataBean.budgetmoney" ></div></div>
+</div><div role="row">
+<div role="control" label="预算已使用额">
+<div class="mini-outputtext" bind="dataBean.usebudgetmoney" ></div></div>
+<div role="control" label="填写时间">
+<div class="mini-outputtext" bind="dataBean.updatetime"  data-options="{format:'yyyy-MM-dd HH:mm:ss'}"></div></div>
+</div>
+    		</div>
+    	</div>
+    </div>
+    
+    <!-- 请修改相对路径 -->
+    <script src="../../../../rest/resource/jsboot"></script>
+    
+    <script>
+		// 初始化页面
+		epoint.initPage('projectbudgetinfodetailaction');
+	</script>
+</body>
+</html>

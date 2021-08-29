@@ -1,0 +1,74 @@
+<!--  -->
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>采购基本信息表详情页面</title>
+<!-- 请修改相对路径 -->
+<script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+	<!-- toolbar区域 -->
+	<div class="fui-toolbar">
+		<div class="btn-group mr10">
+			<a class="mini-button" onclick="epoint.closeDialog">关闭</a>
+		</div>
+	</div>
+
+	<!-- 内容区域 -->
+	<div class="fui-content">
+		<div id="fui-form" class="fui-form" style="width: 90%">
+			<div role="form">
+				<div role="row">
+					<div role="control" label="申请人员">
+						<div class="mini-outputtext" bind="dataBean.applyuserguid"></div>
+					</div>
+					<div role="control" label="预算标识">
+						<div class="mini-outputtext" bind="dataBean.budgetguid"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="申请时间">
+						<div class="mini-outputtext" bind="dataBean.applytime"
+							data-options="{format:'yyyy-MM-dd HH:mm:ss'}"></div>
+					</div>
+					<div role="control" label="到货时间">
+						<div class="mini-outputtext" bind="dataBean.arrivaltime"
+							data-options="{format:'yyyy-MM-dd HH:mm:ss'}"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="采购类型">
+						<div class="mini-outputtext" bind="dataBean.assettype"
+							data-options="{code:'采购类型'}"></div>
+					</div>
+					<div role="control" label="物品总价">
+						<div class="mini-outputtext" bind="dataBean.totalmoney"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="申请说明">
+						<div class="mini-outputtext" bind="dataBean.description"></div>
+					</div>
+					<div role="control" label="申请状态">
+						<div class="mini-outputtext" bind="dataBean.status" data-options="{code:'申请状态'}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 请修改相对路径 -->
+	<script src="../../../../rest/resource/jsboot"></script>
+
+	<script>
+		// 初始化页面
+		epoint.initPage('assetinfodetailaction');
+	</script>
+</body>
+</html>

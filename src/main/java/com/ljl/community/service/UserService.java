@@ -17,27 +17,50 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-
-    public void createOrUpdate(User user) {
+    public User selectByName(String name) {
         UserExample userExample = new UserExample();
-        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+        userExample.createCriteria().andNameEqualTo(name);
         List<User> dbUsers = userMapper.selectByExample(userExample);
         User dbUser = null;
         if (dbUsers.size() != 0) {
             dbUser = dbUsers.get(0);
         }
-        if (dbUser == null) {
+        return dbUser;
+    }
+
+    public int create(User user) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andNameEqualTo(user.getName());
+        List<User> dbUsers = userMapper.selectByExample(userExample);
+        if (dbUsers.size() == 0) {
             //插入
             user.setGtmCreate(System.currentTimeMillis());
-            user.setGtmModified(user.getGtmCreate());
+            user.setGtmModified(System.currentTimeMillis());
             userMapper.insert(user);
+            return 100;
         } else {
-            //更新
-            dbUser.setGtmModified(System.currentTimeMillis());
-            dbUser.setAvatarUrl(user.getAvatarUrl());
-            dbUser.setName(user.getName());
-            dbUser.setToken(user.getToken());
-            userMapper.updateByPrimaryKey(dbUser);
+            return 400;
         }
     }
+
+    public void update(User user) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andNameEqualTo(user.getName());
+        List<User> dbUsers = userMapper.selectByExample(userExample);
+        User dbUser = null;
+        if (dbUsers.size() != 0) {
+            dbUser = dbUsers.get(0);
+        }
+        //更新
+        dbUser.setGtmModified(System.currentTimeMillis());
+        dbUser.setAvatarUrl(user.getAvatarUrl());
+        dbUser.setName(user.getName());
+        dbUser.setToken(user.getToken());
+        dbUser.setDio(user.getDio());
+        UserExample example = new UserExample();
+        example.createCriteria()
+                .andIdEqualTo(dbUser.getId());
+        userMapper.updateByExampleSelective(dbUser, example);
+    }
+
 }

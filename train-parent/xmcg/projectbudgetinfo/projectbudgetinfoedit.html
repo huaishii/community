@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>项目预算信息表修改</title>
+<!-- 请修改相对路径 -->
+<script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+	<!-- toolbar区域 -->
+	<div class="fui-toolbar">
+		<div class="btn-group mr10">
+			<a class="mini-button" id="save" onclick="saveModify">保存并关闭</a> <a
+				class="mini-button" onclick="epoint.closeDialog">取消修改</a>
+		</div>
+	</div>
+
+	<!-- 内容区域 -->
+	<div class="fui-content">
+		<div id="fui-form" class="fui-form" style="width: 90%">
+			<div role="form">
+				<div role="row">
+					<div role="control" label="预算名称" starred="true">
+						<input id="budgetname" class="mini-textbox" bind="dataBean.budgetname"
+							required="true" requiredErrorText="预算名称不能为空!" />
+					</div>
+					<div role="control" label="预算类型" starred="true">
+						<div class="mini-radiobuttonlist" action="budgettypeModel" id="budgettype"
+							bind="dataBean.budgettype" required="true" requiredErrorText="预算类型不能为空!"></div>
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="项目标识" starred="true">
+						<input id="projectguid" class="mini-textbox" bind="dataBean.projectguid"
+							required="true" requiredErrorText="项目标识不能为空!" />
+					</div>
+					<div role="control" label="预算金额" starred="true">
+						<input id="budgetmoney" class="mini-textbox" bind="dataBean.budgetmoney"
+							required="true" requiredErrorText="预算金额不能为空!" vType="int" />
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="预算已使用额" starred="true">
+						<input id="usebudgetmoney" class="mini-textbox" bind="dataBean.usebudgetmoney"
+							required="true" requiredErrorText="预算已使用额不能为空!" vType="int" />
+					</div>
+					<div role="control" label="填写时间" starred="true">
+						<input class="mini-datepicker" bind="dataBean.updatetime" id="updatetime"
+							format="yyyy-MM-dd H:mm:ss" timeFormat="H:mm:ss" showTime="true" required="true"
+							requiredErrorText="填写时间不能为空!" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 请修改相对路径 -->
+	<script src="../../../../rest/resource/jsboot"></script>
+	<script>
+		// 初始化页面
+		epoint.initPage('projectbudgetinfoeditaction');
+
+		function saveModify() {
+			if (epoint.validate()) {
+				epoint.execute('save', 'fui-form', closeCallback);
+			}
+		}
+
+		// 关闭操作的回调
+		function closeCallback(data) {
+			if (data.msg) {
+				epoint.alertAndClose(data.msg, '', null, null, 'info');
+			}
+		}
+	</script>
+</body>
+</html>

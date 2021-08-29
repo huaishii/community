@@ -81,4 +81,9 @@ public class PublishController {
         articleService.createOrUpdate(article);
         return "redirect:/";
     }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id")Integer id){
+        articleService.deleteById(id);
+        return "redirect:/profile/questions";
+    }
 }

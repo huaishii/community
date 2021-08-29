@@ -2,7 +2,6 @@ package com.ljl.community.controller;
 
 import com.ljl.community.dto.NotificationDTO;
 import com.ljl.community.enums.NotificationTypeEnum;
-import com.ljl.community.mapper.NotificationMapper;
 import com.ljl.community.model.User;
 import com.ljl.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;

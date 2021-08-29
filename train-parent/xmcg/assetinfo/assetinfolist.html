@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>采购基本信息表列表</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- 请修改相对路径 -->
+<script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+	<!-- 左右布局页面的左侧内容 -->
+	<div class="fui-left" id="fui-left">
+		<div role="head" title="项目预算"></div>
+		<!-- 左侧的内容区域 -->
+		<div role="body">
+			<ul id="tree" class="mini-tree" style="height: 100%" textField="text" idField="id"
+				parentField="pid" action="geTreeModel" resultAsTree="false"
+				onNodeClick="onTreeNodeClick">
+			</ul>
+		</div>
+	</div>
+	<!-- 左右布局页面的右侧内容 -->
+	<div class="fui-right" id="fui-right">
+		<!-- toolbar区域 -->
+		<div class="fui-toolbar">
+			<div class="btn-group mr10">
+				<a class="mini-button" onclick="openAdd" id="btnAddRecord"> 采购申请 </a> <a id="btnDel"
+					class="mini-button mini-btn-danger" onclick="deleteData"> 删除选定 </a>
+			</div>
+		</div>
+
+		<!-- 内容区域 -->
+		<div id="fuiContent" class="fui-content">
+			<input class="mini-hidden" id="nodeInfo" bind="nodeInfo" />
+			<div id="datagrid" class="mini-datagrid" idField="rowguid" action="getDataGridData"
+				sortOrder="desc" showPager="true" style="height: 100%;" allowResize="true"
+				multiSelect="true" allowCellEdit="true" allowCellSelect="true"
+				editNextOnEnterKey="true" editNextRowCell="true">
+				<div property="columns">
+					<div type="checkcolumn" width="20"></div>
+					<div type="indexcolumn" width="20" headerAlign="center">序</div>
+					<div field="title" headerAlign="center" renderer="rendererTitle">标题</div>
+					<div field="url" width="0"></div>
+					<!-- 					<div field="applyuserguid" headerAlign="center">申请人员</div> -->
+					<div field="applyUserName" headerAlign="center">申请人员</div>
+					<!-- 					<div field="budgetguid" headerAlign="center">预算标识</div> -->
+					<div field="applytime" headerAlign="center"
+						data-options="{'format':'yyyy-MM-dd HH:mm:ss'}" dateFormat="yyyy-MM-dd HH:mm:ss">
+						申请时间</div>
+					<div field="arrivaltime" headerAlign="center"
+						data-options="{'format':'yyyy-MM-dd HH:mm:ss'}" dateFormat="yyyy-MM-dd HH:mm:ss">
+						到货时间</div>
+					<div field="assettype" headerAlign="center" data-options="{code:'采购类型'}">采购类型
+					</div>
+					<div field="totalmoney" headerAlign="center">物品总价</div>
+					<div field="status" headerAlign="center" data-options="{code:'申请状态'}">申请状态</div>
+					<!-- 					<div width="60" align="center" headerAlign="center" renderer="onEditRenderer"> -->
+					<!-- 						修改</div> -->
+					<!-- 					<div width="60" align="center" headerAlign="center" renderer="onDetailRenderer"> -->
+					<!-- 						查看</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 请修改相对路径 -->
+	<script src="../../../../rest/resource/jsboot"></script>
+	<script>
+		var applyUserName;
+		// 初始化页面
+		epoint.initPage('assetinfolistaction');
+
+		// 绘制行编辑按钮
+		var onEditRenderer = function(e) {
+			return epoint.renderCell(e, "action-icon icon-edit", "openEdit");
+		};
+
+// 		// 绘制行查看按钮
+// 		var onDetailRenderer = function(e) {
+// 			return epoint.renderCell(e, "action-icon icon-search", "openDetail");
+// 		};
+
+		// 弹出新增窗口
+		function openAdd() {
+			//frame/pages/epointworkflow/client/processcreateinstance?ProcessGuid=过程guid
+			epoint.openDialog('采购申请', "frame/pages/epointworkflow/client/processcreateinstance?ProcessGuid=3e23ede9-214f-4f87-b208-ce9c17804c54", searchData, {
+				'width' : 1000,
+				'height' : 550
+			});
+		}
+
+		// 弹出修改窗口
+		function openEdit(id) {
+			epoint.openDialog('修改记录', "frame/pages/xmcg/assetinfo/assetinfoedit?guid=" + id, searchData, {
+				'width' : 1000,
+				'height' : 550
+			});
+		}
+
+// 		// 弹出明细窗口
+// 		function openDetail(id) {
+// 			epoint.openDialog('详细信息', "frame/pages/xmcg/assetinfo/assetinfodetail?guid=" + id, {
+// 				'width' : 1000,
+// 				'height' : 550
+// 			});
+// 		}
+
+		// 删除数据
+		function deleteSelect() {
+			epoint.execute("deleteSelect", '', callback);
+		}
+
+		function callback(data) {
+			if (data.msg) {
+				epoint.alert(data.msg, '', searchData, 'info');
+			}
+		}
+
+		// 表格的搜索
+		function searchData() {
+			epoint.refresh([ 'datagrid', 'nodeInfo' ], '', true);
+		}
+
+		function deleteData() {
+			if (mini.get('datagrid').getSelecteds().length == 0) {
+				epoint.alert('请选择要删除的记录!', '', null, 'warning');
+			} else {
+				epoint.confirm('确认要删除吗?', '', deleteSelect);
+			}
+		}
+
+		function onTreeNodeClick(e) {
+			var nodeId = e.row.id;
+			var nodeType = e.row.nodeType;
+
+			var nodeInfo = nodeId + ";" + nodeType;
+			mini.get("nodeInfo").setValue(nodeInfo);
+			epoint.refresh([ 'datagrid', 'nodeInfo' ]);
+		}
+		//标题链接
+		function rendererTitle(e) {
+			var row = e.row;
+			var str = "	<a herf=\"#\" onClick=\"onTitleClick('" + row.title +"','"+row.url+"','"+row.rowguid+ "');return false;\">"+row.title+"</a>";
+			return str;
+		}
+		function onTitleClick(title,url,rowguid) {
+			if(url){
+				epoint.openDialog(title,url);
+			}else{
+				epoint.openDialog('详细信息', "frame/pages/xmcg/assetinfo/assetinfodetail?guid=" + rowguid);
+			}
+			
+		}
+	</script>
+</body>
+</html>

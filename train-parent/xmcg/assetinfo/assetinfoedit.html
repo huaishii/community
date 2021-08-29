@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>采购基本信息表修改</title>
+<!-- 请修改相对路径 -->
+<script src="../../../../frame/fui/js/cssboot.js"></script>
+</head>
+
+<body>
+	<!-- 必须有，加载时的loading效果 -->
+	<div class="page-loading"></div>
+	<!-- toolbar区域 -->
+	<div class="fui-toolbar">
+		<div class="btn-group mr10">
+			<a class="mini-button" id="save" onclick="saveModify">保存并关闭</a> <a
+				class="mini-button" onclick="epoint.closeDialog">取消修改</a>
+		</div>
+	</div>
+
+	<!-- 内容区域 -->
+	<div class="fui-content">
+		<div id="fui-form" class="fui-form" style="width: 90%">
+			<div role="form">
+				<div role="row">
+					<div role="control" label="申请人员" starred="true">
+						<input id="applyuserguid" class="mini-textbox" bind="dataBean.applyuserguid"
+							required="true" requiredErrorText="申请人员不能为空!" />
+					</div>
+					<div role="control" label="预算标识" starred="true">
+						<input id="budgetguid" class="mini-textbox" bind="dataBean.budgetguid"
+							required="true" requiredErrorText="预算标识不能为空!" />
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="申请时间" starred="true">
+						<input class="mini-datepicker" bind="dataBean.applytime" id="applytime"
+							required="true" requiredErrorText="申请时间不能为空!" />
+					</div>
+					<div role="control" label="到货时间">
+						<input class="mini-datepicker" bind="dataBean.arrivaltime" id="arrivaltime" />
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="采购类型" starred="true">
+						<div class="mini-radiobuttonlist" action="assettypeModel" id="assettype"
+							bind="dataBean.assettype" required="true" requiredErrorText="采购类型不能为空!"></div>
+					</div>
+					<div role="control" label="物品总价" starred="true">
+						<input id="totalmoney" class="mini-textbox" bind="dataBean.totalmoney"
+							required="true" requiredErrorText="物品总价不能为空!" vType="int" />
+					</div>
+				</div>
+				<div role="row">
+					<div role="control" label="申请说明">
+						<textarea class="mini-textarea" bind="dataBean.description" id="description"></textarea>
+					</div>
+					<div role="control" label="申请状态">
+						<input id="status" class="mini-textbox" bind="dataBean.status" vType="int" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 请修改相对路径 -->
+	<script src="../../../../rest/resource/jsboot"></script>
+	<script>
+		// 初始化页面
+		epoint.initPage('assetinfoeditaction');
+
+		function saveModify() {
+			if (epoint.validate()) {
+				epoint.execute('save', 'fui-form', closeCallback);
+			}
+		}
+
+		// 关闭操作的回调
+		function closeCallback(data) {
+			if (data.msg) {
+				epoint.alertAndClose(data.msg, '', null, null, 'info');
+			}
+		}
+	</script>
+</body>
+</html>

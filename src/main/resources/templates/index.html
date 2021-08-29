@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Community</title>
+    <title>HSGame</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <script src="js/jquery-3.4.0.min.js"></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <script src="../js/jquery-3.4.0.min.js"></script>
+    <script src="../js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="../css/community.css">
 </head>
 <script>
     window.onload = function () {
@@ -22,8 +22,34 @@
 <div th:insert="navigation::nav"></div>
 <div class="container-fluid">
     <div class="row main">
-        <div class="col-lg-9 col-sm-12 col-md-12 col-xs-12 community-div">
-            <h3><span class="glyphicon glyphicon-list" aria-haidden="true"/> 发现</h3>
+        <div class="col-lg-2 col-sm-12 col-md-12 col-xs-12">
+            <div class="tag-cl">
+                <div class="list-group">
+                    <li  class="list-group-item  glyphicon glyphicon-chevron-down">
+                        快速分类
+                    </li>
+                    <a href="/tag/游戏攻略" class="list-group-item">游戏攻略</a>
+                    <a href="/tag/开黑交友" class="list-group-item">开黑交友</a>
+                    <a href="/tag/举手提问" class="list-group-item">举手提问</a>
+                </div>
+            </div>
+            <hr>
+            <div class="tag-cl1">
+                <div class="list-group">
+                    <li  class="list-group-item  glyphicon glyphicon-chevron-down">
+                        热门游戏
+                    </li>
+                    <a href="/tag/英雄联盟" class="list-group-item">英雄联盟</a>
+                    <a href="/tag/绝地求生" class="list-group-item">绝地求生</a>
+                    <a href="/tag/GTA5" class="list-group-item">GTA5</a>
+                    <a href="/tag/地下城与勇士" class="list-group-item">地下城与勇士</a>
+                    <a href="/tag/魔兽世界" class="list-group-item">魔兽世界</a>
+                    <a href="/tag/王者荣耀" class="list-group-item">王者荣耀</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 col-sm-12 col-md-12 col-xs-12 community-div">
+            <h3><span class="glyphicon glyphicon-list" aria-haidden="true"/></h3>
             <hr>
             <div class="media" th:each="article:${pageInfo.list}">
                 <div class="media-left">
@@ -37,7 +63,7 @@
                     </h4>
                     <span class="text-desc"><span th:text="${article.commentCount}"></span> 个回复 • <span
                             th:text="${article.viewCount}"></span> 次浏览 • <span
-                            th:text="${#dates.format(article.gtmCreate,'yyyy-mm-dd hh:mm:ss')}"></span></span>
+                            th:text="${#dates.format(article.gtmCreate,'yyyy-mm-dd hh:mm')}"></span></span>
                 </div>
             </div>
             <nav aria-label="Page navigation" class="page-css">
@@ -70,9 +96,6 @@
                     </li>
                 </ul>
             </nav>
-        </div>
-        <div class="col-lg-3 col-sm-12 col-md-12 col-xs-12">
-            <h3>最热话题</h3>
         </div>
     </div>
 </div>

@@ -33,7 +33,7 @@
     <result column="DESCRIPTION" jdbcType="CLOB" property="description" />
     <association property="user" javaType="com.ljl.community.model.User">
         <id column="ID" jdbcType="INTEGER" property="id" />
-        <result column="ACCOUNT_ID" jdbcType="VARCHAR" property="accountId" />
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
         <result column="NAME" jdbcType="VARCHAR" property="name" />
         <result column="TOKEN" jdbcType="CHAR" property="token" />
         <result column="GTM_CREATE" jdbcType="BIGINT" property="gtmCreate" />
@@ -62,14 +62,25 @@
   </where>
   order by gtm_modified desc limit 20
 </select>
-  <select id="searchWithUser" parameterType="com.ljl.community.model.Article" resultMap="BaseResultMapWithUser">
-    select * FROM ARTICLE
+  <select id="searchWithUser"  resultMap="BaseResultMapWithUser">
+    select * FROM ARTICLE a,USER u
     <where>
+      a.CREATOR = u.ID
       <if test="search != null and search != ''">
-        and title regexp #{search}
+        and a.title regexp #{search}
       </if>
     </where>
-    order by gtm_modified desc
+    order by a.gtm_modified desc
+  </select>
+  <select id="tagWithUser"  resultMap="BaseResultMapWithUser">
+    select * FROM ARTICLE a,USER u
+    <where>
+      a.CREATOR = u.ID
+      <if test="tag != null and tag != ''">
+        and a.tag regexp #{tagName}
+      </if>
+    </where>
+    order by a.gtm_modified desc
   </select>
   <update id="incView" parameterType="com.ljl.community.model.Article">
     update ARTICLE
@@ -175,7 +186,7 @@
           This element was generated on Sat Aug 10 13:10:39 CST 2019.
         -->
         e.ID, e.TITLE, e.GTM_CREATE, e.GTM_MODIFIED, e.CREATOR, e.COMMENT_COUNT, e.VIEW_COUNT, e.LIKE_COUNT,
-        e.TAG,e.DESCRIPTION,d.ID, d.ACCOUNT_ID, d.NAME, d.TOKEN, d.GTM_CREATE, d.GTM_MODIFIED, d.DIO, d.AVATAR_URL
+        e.TAG,e.DESCRIPTION,d.ID, d.PASSWORD, d.NAME, d.TOKEN, d.GTM_CREATE, d.GTM_MODIFIED, d.DIO, d.AVATAR_URL
     </sql>
   <select id="selectByExampleWithUser"  resultMap="BaseResultMapWithUser">
     <!--
